@@ -47,6 +47,20 @@ resource "rke_cluster" "k8s" {
       cluster_dns_server           = var.rke_cluster_dns_server
       generate_serving_certificate = true
     }
+    etcd {
+      uid = 0
+      gid = 0
+      backup_config {
+        enabled        = true
+        interval_hours = 12
+        retention      = 6
+        s3_backup_config {
+          bucket_name = var.aws_s3_bucket_name
+          endpoint    = var.aws_s3_endpoint
+          region      = var.aws_s3_region
+        }
+      }
+    }
   }
   network {
     plugin = var.rke_network_plugin
@@ -55,18 +69,29 @@ resource "rke_cluster" "k8s" {
     strategy = "x509"
   }
   authorization {
-    mode = "rbac"
+    mode    = "rbac"
+    options = {}
   }
   ingress {
-    provider = "nginx"
+    provider     = "nginx"
+    http_port    = 80
+    https_port   = 443
+    network_mode = "hostPort"
+    extra_args   = {}
+    options      = {}
     node_selector = {
       "app" = "ingress"
     }
   }
   dns {
-    provider = "coredns"
+    provider             = "coredns"
+    node_selector        = {}
+    reverse_cidrs        = []
+    upstream_nameservers = []
   }
   monitoring {
-    provider = "metrics-server"
+    provider      = "metrics-server"
+    node_selector = {}
+    options       = {}
   }
 }

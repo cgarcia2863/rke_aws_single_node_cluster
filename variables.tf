@@ -22,6 +22,21 @@ variable "aws_instance_user_name" {
   default = "ec2-user"
 }
 
+variable "aws_s3_bucket_name" {
+  type    = string
+  default = "dummy-s3-bucket"
+}
+
+variable "aws_s3_endpoint" {
+  type    = string
+  default = "s3.amazonaws.com"
+}
+
+variable "aws_s3_region" {
+  type    = string
+  default = "eu-north-1"
+}
+
 variable "rke_mgmt_cidr_blocks" {
   type    = list(string)
   default = ["0.0.0.0/0"]
@@ -53,6 +68,6 @@ variable "rke_cluster_dns_server" {
 }
 
 variable "rke_kubernetes_version" {
-  type = string
+  type    = string
   default = "v1.22.4-rancher1-1"
 }

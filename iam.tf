@@ -16,7 +16,8 @@ resource "aws_iam_role" "k8s_master_role" {
   })
   managed_policy_arns = [
     aws_iam_policy.rke_controlplane.arn,
-    aws_iam_policy.rke_etcd_worker.arn
+    aws_iam_policy.rke_etcd_worker.arn,
+    aws_iam_policy.rke_etcd_s3_snapshots.arn
   ]
 
   tags = {
@@ -120,6 +121,30 @@ resource "aws_iam_policy" "rke_etcd_worker" {
           "ecr:BatchGetImage"
         ],
         "Resource" : "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "rke_etcd_s3_snapshots" {
+  name = "rke_etcd_s3_snapshots"
+  tags = {
+    "Name" = "rke_etcd_s3_snapshots"
+  }
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "ListObjectsInBucket",
+        "Effect" : "Allow",
+        "Action" : ["s3:ListBucket"],
+        "Resource" : ["arn:aws:s3:::${var.aws_s3_bucket_name}"]
+      },
+      {
+        "Sid" : "AllObjectActions",
+        "Effect" : "Allow",
+        "Action" : "s3:*Object",
+        "Resource" : ["arn:aws:s3:::${var.aws_s3_bucket_name}/*"]
       }
     ]
   })
