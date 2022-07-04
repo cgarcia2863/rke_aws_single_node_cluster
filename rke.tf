@@ -48,12 +48,12 @@ resource "rke_cluster" "k8s" {
       generate_serving_certificate = true
     }
     etcd {
-      uid = 0
-      gid = 0
+      uid = var.rke_etcd_uid
+      gid = var.rke_etcd_gid
       backup_config {
         enabled        = true
-        interval_hours = 12
-        retention      = 6
+        interval_hours = var.rke_etcd_backup_interval
+        retention      = var.rke_etcd_backup_retention
         s3_backup_config {
           bucket_name = var.aws_s3_bucket_name
           endpoint    = var.aws_s3_endpoint
@@ -73,15 +73,13 @@ resource "rke_cluster" "k8s" {
     options = {}
   }
   ingress {
-    provider     = "nginx"
-    http_port    = 80
-    https_port   = 443
-    network_mode = "hostPort"
-    extra_args   = {}
-    options      = {}
-    node_selector = {
-      "app" = "ingress"
-    }
+    provider      = "nginx"
+    http_port     = 80
+    https_port    = 443
+    network_mode  = "hostPort"
+    extra_args    = var.rke_ingress_extra_args
+    options       = var.rke_ingress_options
+    node_selector = {}
   }
   dns {
     provider             = "coredns"

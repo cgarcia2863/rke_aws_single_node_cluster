@@ -23,8 +23,7 @@ variable "aws_instance_user_name" {
 }
 
 variable "aws_s3_bucket_name" {
-  type    = string
-  default = "dummy-s3-bucket"
+  type = string
 }
 
 variable "aws_s3_endpoint" {
@@ -70,4 +69,34 @@ variable "rke_cluster_dns_server" {
 variable "rke_kubernetes_version" {
   type    = string
   default = "v1.22.4-rancher1-1"
+}
+
+variable "rke_etcd_uid" {
+  type    = number
+  default = 0
+}
+
+variable "rke_etcd_gid" {
+  type    = number
+  default = 0
+}
+
+variable "rke_etcd_backup_interval" {
+  type    = number
+  default = 12
+}
+
+variable "rke_etcd_backup_retention" {
+  type    = number
+  default = 6
+}
+
+variable "rke_ingress_extra_args" {
+  type    = map(any)
+  default = {}
+}
+
+variable "rke_ingress_options" {
+  type    = map(any)
+  default = {}
 }
