@@ -1,4 +1,5 @@
 resource "aws_instance" "k8s_master" {
+  count                = var.aws_spot_instance ? 0 : 1
   instance_type        = var.aws_instance_type
   ami                  = var.aws_instance_ami
   subnet_id            = aws_subnet.k8s_public.id

@@ -1,9 +1,9 @@
 output "public_ipv4" {
-  value = aws_instance.k8s_master.public_ip
+  value = var.aws_spot_instance ? aws_spot_instance_request.k8s_master.0.public_ip : aws_instance.k8s_master.0.public_ip
 }
 
 output "private_ipv4" {
-  value = aws_instance.k8s_master.private_ip
+  value = var.aws_spot_instance ? aws_spot_instance_request.k8s_master.0.private_ip : aws_instance.k8s_master.0.private_ip
 }
 
 output "ssh_private_key" {

@@ -1,6 +1,4 @@
 resource "rke_cluster" "k8s" {
-  depends_on = [time_sleep.wait_30_seconds]
-
   cluster_name       = var.aws_instance_name
   kubernetes_version = var.rke_kubernetes_version
   cloud_provider {
@@ -12,8 +10,8 @@ resource "rke_cluster" "k8s" {
     }
   }
   nodes {
-    address           = aws_instance.k8s_master.public_ip
-    internal_address  = aws_instance.k8s_master.private_ip
+    address           = time_sleep.wait_for_instance.triggers["public_ip"]
+    internal_address  = var.aws_spot_instance ? aws_spot_instance_request.k8s_master.0.private_ip : aws_instance.k8s_master.0.private_ip
     hostname_override = "master"
     port              = "22"
     user              = var.aws_instance_user_name

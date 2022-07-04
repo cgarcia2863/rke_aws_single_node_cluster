@@ -1,3 +1,18 @@
+variable "aws_spot_instance" {
+  type    = bool
+  default = false
+}
+
+variable "aws_spot_price" {
+  type    = string
+  default = null
+}
+
+variable "aws_spot_type" {
+  type    = string
+  default = "persistent"
+}
+
 variable "aws_instance_name" {
   type = string
 }
@@ -32,8 +47,7 @@ variable "aws_s3_endpoint" {
 }
 
 variable "aws_s3_region" {
-  type    = string
-  default = "eu-north-1"
+  type = string
 }
 
 variable "rke_mgmt_cidr_blocks" {
@@ -99,4 +113,9 @@ variable "rke_ingress_extra_args" {
 variable "rke_ingress_options" {
   type    = map(any)
   default = {}
+}
+
+variable "rke_sleep_before_deploy" {
+  type    = string
+  default = "30s"
 }
