@@ -119,3 +119,8 @@ variable "rke_sleep_before_deploy" {
   type    = string
   default = "30s"
 }
+
+variable "rke_addons" {
+  type    = string
+  default = null
+}

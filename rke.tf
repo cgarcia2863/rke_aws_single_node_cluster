@@ -1,6 +1,7 @@
 resource "rke_cluster" "k8s" {
   cluster_name       = var.aws_instance_name
   kubernetes_version = var.rke_kubernetes_version
+  addons             = var.rke_addons
   cloud_provider {
     name = "aws"
     aws_cloud_provider {
