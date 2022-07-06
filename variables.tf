@@ -105,6 +105,11 @@ variable "rke_etcd_backup_retention" {
   default = 6
 }
 
+variable "rke_ingress_network_mode" {
+  type = string
+  default = "hostPort"
+}
+
 variable "rke_ingress_extra_args" {
   type    = map(any)
   default = {}

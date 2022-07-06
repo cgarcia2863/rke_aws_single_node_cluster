@@ -75,7 +75,7 @@ resource "rke_cluster" "k8s" {
     provider      = "nginx"
     http_port     = 80
     https_port    = 443
-    network_mode  = "hostPort"
+    network_mode  = var.rke_ingress_network_mode
     extra_args    = var.rke_ingress_extra_args
     options       = var.rke_ingress_options
     node_selector = {}
