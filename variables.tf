@@ -50,6 +50,11 @@ variable "aws_s3_region" {
   type = string
 }
 
+variable "rke_hostname_override" {
+  type    = string
+  default = ""
+}
+
 variable "rke_mgmt_cidr_blocks" {
   type    = list(string)
   default = ["0.0.0.0/0"]

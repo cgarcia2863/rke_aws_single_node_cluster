@@ -13,7 +13,7 @@ resource "rke_cluster" "k8s" {
   nodes {
     address           = time_sleep.wait_for_instance.triggers["public_ip"]
     internal_address  = var.aws_spot_instance ? aws_spot_instance_request.k8s_master.0.private_ip : aws_instance.k8s_master.0.private_ip
-    hostname_override = "master"
+    hostname_override = var.rke_hostname_override != "" ? var.rke_hostname_override : time_sleep.wait_for_instance.triggers["public_ip"]
     port              = "22"
     user              = var.aws_instance_user_name
     role = [
