@@ -111,7 +111,7 @@ variable "rke_etcd_backup_retention" {
 }
 
 variable "rke_ingress_network_mode" {
-  type = string
+  type    = string
   default = "hostPort"
 }
 
@@ -131,6 +131,11 @@ variable "rke_sleep_before_deploy" {
 }
 
 variable "rke_addons" {
+  type    = string
+  default = null
+}
+
+variable "rke_snapshot_name" {
   type    = string
   default = null
 }

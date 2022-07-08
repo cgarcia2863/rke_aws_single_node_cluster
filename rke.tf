@@ -24,6 +24,13 @@ resource "rke_cluster" "k8s" {
     ssh_key = tls_private_key.k8s_master_ssh.private_key_openssh
     labels  = {}
   }
+  dynamic "restore" {
+    for_each = [var.rke_snapshot_name]
+    content {
+      restore       = true
+      snapshot_name = var.rke_snapshot_name
+    }
+  }
   services {
     kube_api {
       service_cluster_ip_range = var.rke_service_cluster_ip_range
